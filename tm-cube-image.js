@@ -9,7 +9,18 @@ const COLOR_BLUE = '#355ee5';
 const COLOR_ORANGE = '#FF5733';
 const COLOR_YELLOW = '#ffff25';
 const COLOR_GREEN = '#2ac44b';
-const COLOR_BLACK = 'black';
+const COLOR_BLACK = 'darkgray';
+
+const COLORS = {
+    'r': COLOR_RED,
+    'w': COLOR_WHITE,
+    'b': COLOR_BLUE,
+    'o': COLOR_ORANGE,
+    'y': COLOR_YELLOW,
+    'g': COLOR_GREEN,
+    '_': COLOR_BLACK,
+    '-': COLOR_BLACK
+};
 
 /**
  * `tm-cube-image`
@@ -26,13 +37,13 @@ class TmCubeImage extends PolymerElement {
         :host {
           display: inline-block;
           box-sizing: border-box;
-          border: solid blue 1px;
-          width: 200px;
-          height: 200px;
+          //border: solid blue 1px;
+          width: 150px;
+          height: 150px;
         }
         svg {
             box-sizing: border-box;
-            border: solid red 1px;
+            //border: solid red 1px;
             width: 100%;
             height: 100%;
         }
@@ -551,7 +562,7 @@ class TmCubeImage extends PolymerElement {
         return {
             stickers: {
                 type: String,
-                value: 'rbb rbb rrr | wwb wwb bbb | www rrw rrw',
+                value: 'rrr rrr rrr | bbb bbb bbb | www www www',
                 observer: '_stickersChanged'
             },
             colors: {
@@ -571,23 +582,17 @@ class TmCubeImage extends PolymerElement {
         };
     }
     _stickersChanged(stickers) {
-        const newColors = stickers.split('').filter(c => c !== ' ' && c !== '|')
-            .map(c => this._lookupColor(c));
+        const newColors = stickers.split('')
+                                    .filter(c => (c !== ' ' && c !== '|'))
+                                    .join('')
+                                    .padEnd(27, '.')
+                                    .split('')
+                                    .map(c => this._lookupColor(c));
+        console.log('Colors: ', newColors);
         this.set('colors', newColors);
     }
     _lookupColor(ch) {
-        let color;
-        switch(ch) {
-            case 'r': color = COLOR_RED; break;
-            case 'w': color = COLOR_WHITE; break;
-            case 'b': color = COLOR_BLUE; break;
-            case 'o': color = COLOR_ORANGE; break;
-            case 'y': color = COLOR_YELLOW; break;
-            case 'g': color = COLOR_GREEN; break;
-            case '.': color = COLOR_BLACK; break;
-            default: color = COLOR_BLACK;
-        }
-        return color;
+        return (ch in COLORS ? COLORS[ch] : COLOR_BLACK)
     }
     _getColour(colors, position) {
         return colors[position];

@@ -19,6 +19,12 @@
       <style is="custom-style" include="demo-pages-shared-styles">
       </style>
     </custom-style>
+    <style>
+      tm-cube-image {
+        width:180px;
+        height: 180px;
+      }
+    </style>
   </head>
   <body>
     <div class="vertical-section-container centered">
@@ -26,7 +32,11 @@
       <demo-snippet>
         <template>
           <tm-cube-image></tm-cube-image>
+          <tm-cube-image stickers="rbb rbb rrr | wwb wwb bbb | www rrw rrw"></tm-cube-image>
           <tm-cube-image stickers="bor grb bww | wbo rgb gyr | wog yyw gwy"></tm-cube-image>
+          <tm-cube-image stickers="bgb gbg bgb | ror oro ror | ywy ywy wyw"></tm-cube-image>
+          <tm-cube-image stickers="rrr rwr rrr | bbb brb bbb | www wbw www"></tm-cube-image>
+          <tm-cube-image stickers="rwr wwr rrr | brb brr bbb | www bbw wbw"></tm-cube-image>
         </template>
       </demo-snippet>
     </div>
