@@ -47,17 +47,12 @@ class TmCubeImage extends PolymerElement {
             width: 100%;
             height: 100%;
         }
-        svg > g {
-            border: solid blue 1px;
-        }
       </style>
       <svg id="svg"
          xmlns:svg="http://www.w3.org/2000/svg"
          xmlns="http://www.w3.org/2000/svg"
          xmlns:xlink="http://www.w3.org/1999/xlink"
-         version="1.0"
-         
-         id="svg2">
+         version="1.0">
         <defs
            id="defs4">
           <radialGradient
@@ -604,20 +599,17 @@ class TmCubeImage extends PolymerElement {
         return 'translate(' + newX + ',' + newY + ') scale(' + resultingScale + ')';
     }
 
-    ready() {
-        super.ready();
-        const self = this;
-        this.onresize = function() {
-            var element = self.$.svg;
-            var height = element.clientHeight;
-            var width = element.clientWidth;
-            console.log('Resize: ', height, width);
-        };
-        var element = this.$.svg;
+    _scaleImage(element) {
+        console.log('Cube SVG: ', element);
         var height = element.clientHeight;
         var width = element.clientWidth;
         console.log('Size: ', height, width);
         this.set('scale', (width<height ? width / BASE_SIZE : height / BASE_SIZE));
+    }
+
+    ready() {
+        super.ready();
+        this._scaleImage(this.$.svg);
     }
 }
 

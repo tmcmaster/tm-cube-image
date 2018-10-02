@@ -3,7 +3,8 @@
   "description": "Polymer web component for generating cube images",
   "main": "tm-cube-image.js",
   "dependencies": {
-    "@polymer/polymer": "^3.0.0"
+    "@polymer/polymer": "^3.0.0",
+    "d3": "^5.7.0"
   },
   "devDependencies": {
     "@polymer/iron-demo-helpers": "^3.0.0-pre.19",
