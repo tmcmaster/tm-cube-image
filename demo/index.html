@@ -21,9 +21,13 @@
       </style>
     </custom-style>
     <style>
+      tm-cube-image-top {
+        width:180px;
+        height:180px;
+      }
       tm-cube-image {
-        width:120px;
-        height: 120px;
+        width:180px;
+        height:180px;
       }
     </style>
   </head>
@@ -32,14 +36,32 @@
       <h3>Basic tm-cube-image demo</h3>
       <demo-snippet>
         <template>
-          <tm-cube-image></tm-cube-image>
-          <tm-cube-image stickers="rbb rbb rrr | wwb wwb bbb | www rrw rrw"></tm-cube-image>
-          <tm-cube-image stickers="bor grb bww | wbo rgb gyr | wog yyw gwy"></tm-cube-image>
-          <tm-cube-image stickers="bgb gbg bgb | ror oro ror | ywy ywy wyw"></tm-cube-image>
-          <tm-cube-image stickers="rrr rwr rrr | bbb brb bbb | www wbw www"></tm-cube-image>
-          <tm-cube-image stickers="rwr wwr rrr | brb brr bbb | www bbw wbw"></tm-cube-image>
+
+          <!-- J Perm - Right -->
           <tm-cube-image-top stickers="yyy yyy yyy | oog rro ggr bbb" arrows="3>9, 9>3, 6>8, 8>6"></tm-cube-image-top>
+          <!-- J Perm - Left -->
+          <tm-cube-image-top stickers="yyy yyy yyy | boo ggg rbb orr" arrows="1>7, 7>1, 4>8, 8>4"></tm-cube-image-top>
+          <!-- T Perm -->
           <tm-cube-image-top stickers="yyy yyy yyy | oog rbo grr bgb" arrows="3>9, 9>3, 6>4, 4>6"></tm-cube-image-top>
+          <!-- Opposite Edges -->
+          <tm-cube-image-top stickers="yyy yyy yyy | oro gbg ror bgb" arrows="2>8, 8>2, 4>6, 6>4"></tm-cube-image-top>
+          <!-- U Perm - Right -->
+          <tm-cube-image-top stickers="yyy yyy yyy | ooo grg rbr bgb" arrows="4>8, 8>6, 6>4"></tm-cube-image-top>
+          <!-- U Perm - Left -->
+          <tm-cube-image-top stickers="yyy yyy yyy | ooo gbg rgr brb" arrows="4>6, 6>8, 8>4"></tm-cube-image-top>
+
+          <!-- Solved -->
+          <tm-cube-image></tm-cube-image>
+          <!-- Cube in Cube -->
+          <tm-cube-image stickers="rbb rbb rrr | wwb wwb bbb | www rrw rrw"></tm-cube-image>
+          <!-- Mixed Up -->
+          <tm-cube-image stickers="bor grb bww | wbo rgb gyr | wog yyw gwy"></tm-cube-image>
+          <!-- Checker Pattern -->
+          <tm-cube-image stickers="bgb gbg bgb | ror oro ror | ywy ywy wyw"></tm-cube-image>
+          <!-- Flower Pattern -->
+          <tm-cube-image stickers="rrr rwr rrr | bbb brb bbb | www wbw www"></tm-cube-image>
+          <!-- Snake Pattern -->
+          <tm-cube-image stickers="rwr wwr rrr | brb brr bbb | www bbw wbw"></tm-cube-image>
         </template>
       </demo-snippet>
     </div>

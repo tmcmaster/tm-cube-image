@@ -5,6 +5,21 @@ import * as d3 from "d3";
 
 const SQUARE_SIZE = 0.37037037037;
 
+const EDGE_MAP = {
+    1: [20,9],
+    2: [10],
+    3: [11,12],
+    4: [19],
+    5: [],
+    6: [13],
+    7: [17,18],
+    8: [16],
+    9: [14,15]
+};
+
+// Deprecated
+const J_PERM_RIGHT = '11>14,12>15 | 15>12,14>11 | 13>16 | 16>13';
+
 /**
  * `tm-cube-image-top`
  * Polymer web component for generating cube images
@@ -36,6 +51,7 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
             width: 100%;
             height: 100%;
         }
+       
         
        </style>
             
@@ -48,7 +64,7 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
                 </marker>
               </defs>
               
-            <g id="aaa" transform="scale(0.8)" id="topface">
+            <g id="aaa"  transform="scale(1) " id="topface">
                 <!-- Border -->
                 <g style='stroke-width:0.1;stroke-linejoin:round;opacity:1'>
                     <polygon fill='#000000' stroke='#000000' points='-0.522222222222,-0.522222222222 0.522222222222,-0.522222222222 0.522222222222,0.522222222222 -0.522222222222,0.522222222222'/>
@@ -93,11 +109,38 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
                 type: String,
                 value: '4>6, 6>8, 8>4',
                 observer: '_arrowsChanged'
+            },
+            debug: {
+                type: Boolean,
+                value: false
             }
         };
     }
 
+    _tap(e) {
+        console.log('TAP: ', e);
+        if (e.shiftKey) {
+            this.rotateLeft()
+        } else if (e.metaKey) {
+            this.rotateRight();
+        } else {
+            this.move();
+        }
+    }
+
+    rotateLeft() {
+        this._move('1>7,7>9,9>3,3>1,2>4,4>8,8>6,6>2');
+    }
+
+    rotateRight() {
+        this._move('1>3,3>9,9>7,7>1,2>6,6>8,8>4,4>2');
+    }
+
     _arrowsChanged(arrows) {
+        if (arrows === undefined || arrows === "") {
+            d3.select(this.$.arrows).selectAll('line').remove();
+            return;
+        }
         console.log('Clearing arrows');
         // TODO: remove previous arrows not working
         d3.select(this.$.arrows).selectAll('line').remove();
@@ -110,6 +153,51 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
         });
     }
 
+    move() {
+        this._move(this.arrows);
+    }
+
+    _move(arrows) {
+        console.log('EDGE_MAP: ', EDGE_MAP);
+        console.log('ARROWS: ', this.arrows);
+        console.log('J_PERM_RIGHT: ', J_PERM_RIGHT);
+
+        const origColors = this.colors.map(c => c);
+        const newColors = this.colors.map(c => c);
+        arrows.split('')
+            .filter(c => c !== ' ')
+            .join('')
+            .split(',')
+            .map(m => m.split('>'))
+            .forEach(move => {
+                let from = EDGE_MAP[move[0]];
+                let to = EDGE_MAP[move[1]];
+                from = (Array.isArray(from) ? from : [from]);
+                to = (Array.isArray(to) ? to : [to]);
+                console.log('Move A: (' + from + ') -> (' + to + ')');
+                from.forEach((m,i) => {
+                    console.log('Move B: (' + from[i] + ') -> (' + to[i] + ')');
+                    newColors[to[i]] = origColors[from[i]]
+                });
+
+            });
+        this.set('colors', newColors);
+    }
+
+    applyMoves(movesString) {
+        const moves = movesString.split('')
+            .map(c => (c==='|' ? ',' : c))
+            .filter(c => c !== ' ')
+            .join('')
+            .split(',')
+            .map(m => m.split('>'));
+
+        const origColors = this.colors.map(c => c);
+        const newColors = this.colors.map(c => c);
+        moves.forEach(move => newColors[move[1]] = origColors[move[0]]);
+        this.set('colors', newColors);
+    }
+
     ready() {
         super.ready();
         console.log('DEBUG --- ', this.stickers);
@@ -118,22 +206,7 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
             this.set('stickers', 'yyy yyy yyy | rrr bbb ooo ggg');
         }
 
-        const svg = d3.select(this.$.arrows);
-
-        // this._addArrow(svg, 4,8);
-        // this._addArrow(svg, 8,6);
-        // this._addArrow(svg, 6,4);
-
-        // this._addArrow(svg, 2,8);
-        // this._addArrow(svg, 8,2);
-        // this._addArrow(svg, 4,6);
-        // this._addArrow(svg, 6,4);
-
-        // this._addArrow(svg, 1,3);
-        // this._addArrow(svg, 3,7);
-        // this._addArrow(svg, 7,1);
-
-        console.log();
+        this.$.aaa.addEventListener('click', e => this._tap(e));
     }
 
     _addArrow(svg, from, to) {
