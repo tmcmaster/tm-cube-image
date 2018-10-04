@@ -4,5 +4,11 @@
     "rules": [
       "polymer-3"
     ]
-  }
+  },
+  "builds": [{
+    "bundle": true,
+    "js": {"compile": true, "minify": true},
+    "css": {"minify": true},
+    "html": {"minify": true}
+  }]
 }

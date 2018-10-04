@@ -51,7 +51,6 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
             width: 100%;
             height: 100%;
         }
-       
         
        </style>
             
@@ -107,8 +106,11 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
         return {
             arrows: {
                 type: String,
-                value: '4>6, 6>8, 8>4',
                 observer: '_arrowsChanged'
+            },
+            flips: {
+                type: String,
+                observer: '_flipsChanged'
             },
             debug: {
                 type: Boolean,
@@ -120,7 +122,7 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
     _tap(e) {
         console.log('TAP: ', e);
         if (e.shiftKey) {
-            this.rotateLeft()
+            this.rotateLeft();
         } else if (e.metaKey) {
             this.rotateRight();
         } else {
@@ -129,21 +131,23 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
     }
 
     rotateLeft() {
-        this._move('1>7,7>9,9>3,3>1,2>4,4>8,8>6,6>2');
+        this._moveWithArrows('1>7,7>9,9>3,3>1,2>4,4>8,8>6,6>2');
     }
 
     rotateRight() {
-        this._move('1>3,3>9,9>7,7>1,2>6,6>8,8>4,4>2');
+        this._moveWithArrows('1>3,3>9,9>7,7>1,2>6,6>8,8>4,4>2');
+    }
+
+    _flipsChanged(flips) {
+
     }
 
     _arrowsChanged(arrows) {
         if (arrows === undefined || arrows === "") {
+            console.log('Clearing arrows');
             d3.select(this.$.arrows).selectAll('line').remove();
             return;
         }
-        console.log('Clearing arrows');
-        // TODO: remove previous arrows not working
-        d3.select(this.$.arrows).selectAll('line').remove();
 
         const svg = d3.select(this.$.arrows);
         const self = this;
@@ -154,33 +158,53 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
     }
 
     move() {
-        this._move(this.arrows);
+        if (this.flips !== undefined && this.flips !== '') {
+            this._moveWithFlips(this.flips);
+        } else if (this.arrows !== undefined && this.arrows !== '') {
+            this._moveWithArrows(this.arrows);
+        }
     }
 
-    _move(arrows) {
-        console.log('EDGE_MAP: ', EDGE_MAP);
-        console.log('ARROWS: ', this.arrows);
-        console.log('J_PERM_RIGHT: ', J_PERM_RIGHT);
+    _moveWithFlips(flips) {
+        if (flips === undefined || flips === "") return;
 
         const origColors = this.colors.map(c => c);
         const newColors = this.colors.map(c => c);
-        arrows.split('')
+        let moves = this.flips.split('')
+            .map(ch => (ch === '|' ? ',' : ch))
+            .filter(ch => ch !== ' ')
+            .join('')
+            .split(',')
+            .map(m => m.split('>'));
+        console.log("----- MOVES: ", moves);
+        moves.forEach(move => {
+            newColors[move[1]] = origColors[move[0]]
+        });
+        this.set('colors', newColors);
+    }
+
+    _moveWithArrows(arrows) {
+        if (arrows === undefined || arrows === "") return;
+
+        let moves = arrows.split('')
             .filter(c => c !== ' ')
             .join('')
             .split(',')
-            .map(m => m.split('>'))
-            .forEach(move => {
-                let from = EDGE_MAP[move[0]];
-                let to = EDGE_MAP[move[1]];
-                from = (Array.isArray(from) ? from : [from]);
-                to = (Array.isArray(to) ? to : [to]);
-                console.log('Move A: (' + from + ') -> (' + to + ')');
-                from.forEach((m,i) => {
-                    console.log('Move B: (' + from[i] + ') -> (' + to[i] + ')');
-                    newColors[to[i]] = origColors[from[i]]
-                });
+            .map(m => m.split('>'));
 
+        const origColors = this.colors.map(c => c);
+        const newColors = this.colors.map(c => c);
+        moves.forEach(move => {
+            let from = EDGE_MAP[move[0]];
+            let to = EDGE_MAP[move[1]];
+            from = (Array.isArray(from) ? from : [from]);
+            to = (Array.isArray(to) ? to : [to]);
+            console.log('Move A: (' + from + ') -> (' + to + ')');
+            from.forEach((m,i) => {
+                console.log('Move B: (' + from[i] + ') -> (' + to[i] + ')');
+                newColors[to[i]] = origColors[from[i]]
             });
+        });
         this.set('colors', newColors);
     }
 
