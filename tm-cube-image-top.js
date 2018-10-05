@@ -6,15 +6,15 @@ import * as d3 from "d3";
 const SQUARE_SIZE = 0.37037037037;
 
 const EDGE_MAP = {
-    1: [20,9],
-    2: [10],
-    3: [11,12],
-    4: [19],
+    1: [20,9,0],
+    2: [10,1],
+    3: [11,12,2],
+    4: [19,3],
     5: [],
-    6: [13],
-    7: [17,18],
-    8: [16],
-    9: [14,15]
+    6: [13,5],
+    7: [17,18,6],
+    8: [16,7],
+    9: [14,15,8]
 };
 
 // Deprecated
@@ -112,6 +112,14 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
                 type: String,
                 observer: '_flipsChanged'
             },
+            noArrows: {
+                type: Boolean,
+                value: false
+            },
+            noMove: {
+                type: Boolean,
+                value: false
+            },
             debug: {
                 type: Boolean,
                 value: false
@@ -128,6 +136,11 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
         } else {
             this.move();
         }
+
+        const arrows = this.arrows;
+        const flips = this.flips;
+
+        this.dispatchEvent(new CustomEvent('select', {detail: {arrows: arrows, flips: flips}}));
     }
 
     rotateLeft() {
@@ -143,6 +156,9 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
     }
 
     _arrowsChanged(arrows) {
+        if (this.noArrows) {
+            return;
+        }
         if (arrows === undefined || arrows === "") {
             console.log('Clearing arrows');
             d3.select(this.$.arrows).selectAll('line').remove();
@@ -158,6 +174,9 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
     }
 
     move() {
+        if (this.noMove) {
+            return;
+        }
         if (this.flips !== undefined && this.flips !== '') {
             this._moveWithFlips(this.flips);
         } else if (this.arrows !== undefined && this.arrows !== '') {
