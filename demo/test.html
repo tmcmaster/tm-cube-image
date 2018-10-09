@@ -30,6 +30,16 @@
             width: 180px;
             height: 180px;
         }
+
+        body {
+
+            -webkit-user-select: none;
+            /* Chrome/Safari */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* IE10+ */
+        }
     </style>
 
     <script type="module">
@@ -52,6 +62,7 @@
                       tm-cube-image-top {
                         width: 100px;
                         height: 100px;
+
                       }
                       #cube {
                         box-sizing: border-box;
@@ -123,9 +134,7 @@
                     this.$.cube.move();
                 }
 
-                static
-                get
-                properties()
+                static get properties()
                 {
                     return {
                         test: {

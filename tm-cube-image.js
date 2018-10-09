@@ -609,8 +609,8 @@ class TmCubeImage extends PolymerElement {
 
     ready() {
         super.ready();
-        this._scaleImage(this.$.svg);
+        //this._scaleImage(this.$.svg);
     }
 }
 
-window.customElements.define('tm-cube-image', TmCubeImage);
+    window.customElements.define('tm-cube-image', TmCubeImage);
