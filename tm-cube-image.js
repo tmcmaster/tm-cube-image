@@ -39,7 +39,7 @@ class TmCubeImage extends PolymerElement {
         :host {
           display: inline-block;
           box-sizing: border-box;
-          border: solid red 3px;
+          //border: solid red 3px;
           //padding:2%;
         }
         svg {
