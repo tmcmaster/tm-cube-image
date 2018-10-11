@@ -26,6 +26,8 @@ const COLORS = {
  * `tm-cube-image`
  * Polymer web component for generating cube images
  *
+ * TODO: Need to port this component to use the image-behaviour
+ *
  * @customElement
  * @polymer
  * @demo demo/index.html
@@ -52,7 +54,7 @@ class TmCubeImage extends PolymerElement {
          xmlns:svg="http://www.w3.org/2000/svg"
          xmlns="http://www.w3.org/2000/svg"
          xmlns:xlink="http://www.w3.org/1999/xlink"
-         version="1.0">
+         version="1.0" viewBox="1 1 50 50">
         <defs
            id="defs4">
           <radialGradient
@@ -337,7 +339,7 @@ class TmCubeImage extends PolymerElement {
              gradientTransform="matrix(0.445728,0,0,0.445728,111.2432,-32.17062)" />
         </defs>
         <g
-           transform$="[[_getTransform(scale)]]"
+           transform="scale(0.1)"
            id="layer1">
           <g
              transform="translate(2.86332,6.351005)"
@@ -592,20 +594,20 @@ class TmCubeImage extends PolymerElement {
     _getColour(colors, position) {
         return colors[position];
     }
-    _getTransform(scale) {
-        const resultingScale = BASE_SCALE * this.scale;
-        const newX = 6 * this.scale;
-        const newY = 4 * this.scale;
-        return 'translate(' + newX + ',' + newY + ') scale(' + resultingScale + ')';
-    }
-
-    _scaleImage(element) {
-        console.log('Cube SVG: ', element);
-        var height = element.clientHeight;
-        var width = element.clientWidth;
-        console.log('Size: ', height, width);
-        this.set('scale', (width<height ? width / BASE_SIZE : height / BASE_SIZE));
-    }
+    // _getTransform(scale) {
+    //     const resultingScale = BASE_SCALE * this.scale;
+    //     const newX = 6 * this.scale;
+    //     const newY = 4 * this.scale;
+    //     return 'translate(' + newX + ',' + newY + ') scale(' + resultingScale + ')';
+    // }
+    //
+    // _scaleImage(element) {
+    //     console.log('Cube SVG: ', element);
+    //     var height = element.clientHeight;
+    //     var width = element.clientWidth;
+    //     console.log('Size: ', height, width);
+    //     this.set('scale', (width<height ? width / BASE_SIZE : height / BASE_SIZE));
+    // }
 
     ready() {
         super.ready();

@@ -123,6 +123,10 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
             debug: {
                 type: Boolean,
                 value: false
+            },
+            stickers: {
+                type: String,
+                notify: true
             }
         };
     }

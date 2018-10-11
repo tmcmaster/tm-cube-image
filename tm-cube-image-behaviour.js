@@ -29,7 +29,8 @@ export const TmCubeImageBehavior = {
         },
         colors: {
             type: Array,
-            value: []
+            value: [],
+            notify: true
         },
         scale: {
             type: Number,
