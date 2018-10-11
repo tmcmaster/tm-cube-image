@@ -39,9 +39,8 @@ class TmCubeImage extends PolymerElement {
         :host {
           display: inline-block;
           box-sizing: border-box;
-          //border: solid blue 1px;
-          width: 150px;
-          height: 150px;
+          border: solid red 3px;
+          //padding:2%;
         }
         svg {
             box-sizing: border-box;
@@ -339,7 +338,7 @@ class TmCubeImage extends PolymerElement {
              gradientTransform="matrix(0.445728,0,0,0.445728,111.2432,-32.17062)" />
         </defs>
         <g
-           transform="scale(0.1)"
+           transform="scale(0.095) translate(20,20)"
            id="layer1">
           <g
              transform="translate(2.86332,6.351005)"
