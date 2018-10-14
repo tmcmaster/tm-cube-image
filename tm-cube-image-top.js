@@ -132,7 +132,6 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
     }
 
     _tap(e) {
-        console.log('TAP: ', e);
         if (e.shiftKey) {
             this.rotateLeft();
         } else if (e.metaKey) {
@@ -164,7 +163,6 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
             return;
         }
         if (arrows === undefined || arrows === "") {
-            console.log('Clearing arrows');
             d3.select(this.$.arrows).selectAll('line').remove();
             return;
         }
@@ -199,7 +197,6 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
             .join('')
             .split(',')
             .map(m => m.split('>'));
-        console.log("----- MOVES: ", moves);
         moves.forEach(move => {
             newColors[move[1]] = origColors[move[0]]
         });
@@ -222,9 +219,7 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
             let to = EDGE_MAP[move[1]];
             from = (Array.isArray(from) ? from : [from]);
             to = (Array.isArray(to) ? to : [to]);
-            console.log('Move A: (' + from + ') -> (' + to + ')');
             from.forEach((m,i) => {
-                console.log('Move B: (' + from[i] + ') -> (' + to[i] + ')');
                 newColors[to[i]] = origColors[from[i]]
             });
         });
@@ -247,7 +242,6 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
 
     ready() {
         super.ready();
-        console.log('DEBUG --- ', this.stickers);
         this._scaleImage(this.$.arrows);
         if (this.stickers === undefined || this.stickers === '') {
             this.set('stickers', 'yyy yyy yyy | rrr bbb ooo ggg');

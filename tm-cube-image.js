@@ -584,7 +584,6 @@ class TmCubeImage extends PolymerElement {
                                     .padEnd(27, '.')
                                     .split('')
                                     .map(c => this._lookupColor(c));
-        console.log('Colors: ', newColors);
         this.set('colors', newColors);
     }
     _lookupColor(ch) {

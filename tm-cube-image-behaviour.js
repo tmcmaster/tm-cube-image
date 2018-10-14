@@ -60,7 +60,6 @@ export const TmCubeImageBehavior = {
             .padEnd(27, '.')
             .split('')
             .map(c => this._lookupColor(c));
-        console.log('---- Colors: ', newColors);
         this.set('colors', newColors);
     },
     _lookupColor(ch) {
@@ -77,10 +76,8 @@ export const TmCubeImageBehavior = {
     },
 
     _scaleImage(element) {
-        console.log('Cube SVG: ', element);
         var height = element.clientHeight;
         var width = element.clientWidth;
-        console.log('Size: ', height, width);
         this.set('scale', (width<height ? width / this.baseSize : height / this.baseSize));
     }
 
