@@ -69,17 +69,30 @@
 
 
                     <!--<tm-cube-image-top></tm-cube-image-top>-->
-                    <tm-cube-image></tm-cube-image>
+                    <tm-cube-image on-select="_selected" stickers="[[alg.stickers]]" alg="[[alg]]"></tm-cube-image>
 
                     `;
             }
 
-                static get properties()
-                {
-                    return {};
-                }
+            _selected(e) {
+                console.log('cube has been selected.', e.detail.alg);
             }
-                window.customElements.define('test-tm-cube-image-top', TmCubeImageTopTest);
+
+            static get properties()
+            {
+                return {
+                    alg: {
+                        type: Object,
+                        value: {
+                            stickers: 'rgg rrr rrr | orr ggg ggg | yyy yyy yyy',
+                            scramble: "R U R' F' R U R U' R' F R2 U' R' U'",
+                            moves: "R U R' F' R U R U' R' F R2 U' R' U'"
+                        }
+                    }
+                };
+            }
+        }
+        window.customElements.define('test-tm-cube-image-top', TmCubeImageTopTest);
     </script>
 </head>
 <body>

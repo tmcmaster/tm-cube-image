@@ -574,6 +574,9 @@ class TmCubeImage extends PolymerElement {
             },
             height: {
                 type: Number
+            },
+            alg: {
+                type: Object
             }
         };
     }
@@ -610,7 +613,15 @@ class TmCubeImage extends PolymerElement {
     ready() {
         super.ready();
         //this._scaleImage(this.$.svg);
+
+        this.$.cube.addEventListener('click', e => this._tap(e));
+    }
+
+    _tap(e) {
+        const alg = this.alg;
+
+        this.dispatchEvent(new CustomEvent('select', {detail: {alg: alg}}));
     }
 }
 
-    window.customElements.define('tm-cube-image', TmCubeImage);
+window.customElements.define('tm-cube-image', TmCubeImage);
