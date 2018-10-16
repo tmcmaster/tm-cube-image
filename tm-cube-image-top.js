@@ -252,7 +252,8 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
         if (this.payload === undefined) {
             this.payload = {
                 stickers: this.stickers,
-                arrows: this.arrows
+                arrows: this.arrows,
+                flips: this.flips
             };
         }
         this.$.cube.addEventListener('click', e => this._tap(e));
