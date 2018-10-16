@@ -575,7 +575,7 @@ class TmCubeImage extends PolymerElement {
             height: {
                 type: Number
             },
-            alg: {
+            payload: {
                 type: Object
             }
         };
@@ -595,32 +595,23 @@ class TmCubeImage extends PolymerElement {
     _getColour(colors, position) {
         return colors[position];
     }
-    // _getTransform(scale) {
-    //     const resultingScale = BASE_SCALE * this.scale;
-    //     const newX = 6 * this.scale;
-    //     const newY = 4 * this.scale;
-    //     return 'translate(' + newX + ',' + newY + ') scale(' + resultingScale + ')';
-    // }
-    //
-    // _scaleImage(element) {
-    //     console.log('Cube SVG: ', element);
-    //     var height = element.clientHeight;
-    //     var width = element.clientWidth;
-    //     console.log('Size: ', height, width);
-    //     this.set('scale', (width<height ? width / BASE_SIZE : height / BASE_SIZE));
-    // }
 
     ready() {
         super.ready();
-        //this._scaleImage(this.$.svg);
+
+        if (this.payload === undefined) {
+            this.payload = {
+                stickers: this.stickers
+            };
+        }
 
         this.$.cube.addEventListener('click', e => this._tap(e));
     }
 
     _tap(e) {
-        const alg = this.alg;
+        const payload = this.payload;
 
-        this.dispatchEvent(new CustomEvent('select', {detail: {alg: alg}}));
+        this.dispatchEvent(new CustomEvent('select', {detail: payload}));
     }
 }
 

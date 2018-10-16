@@ -63,7 +63,7 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
                 </marker>
               </defs>
               
-            <g id="aaa"  transform="scale(1) " id="topface">
+            <g id="cube"  transform="scale(1) " id="topface">
                 <!-- Border -->
                 <g style='stroke-width:0.1;stroke-linejoin:round;opacity:1'>
                     <polygon fill='#000000' stroke='#000000' points='-0.522222222222,-0.522222222222 0.522222222222,-0.522222222222 0.522222222222,0.522222222222 -0.522222222222,0.522222222222'/>
@@ -127,6 +127,9 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
             stickers: {
                 type: String,
                 notify: true
+            },
+            payload: {
+                type: Object
             }
         };
     }
@@ -140,10 +143,9 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
             this.move();
         }
 
-        const arrows = this.arrows;
-        const flips = this.flips;
+        const payload = this.payload;
 
-        this.dispatchEvent(new CustomEvent('select', {detail: {arrows: arrows, flips: flips}}));
+        this.dispatchEvent(new CustomEvent('select', {detail: payload}));
     }
 
     rotateLeft() {
@@ -247,7 +249,13 @@ class TmCubeImageTop extends mixinBehaviors([TmCubeImageBehavior], PolymerElemen
             this.set('stickers', 'yyy yyy yyy | rrr bbb ooo ggg');
         }
 
-        this.$.aaa.addEventListener('click', e => this._tap(e));
+        if (this.payload === undefined) {
+            this.payload = {
+                stickers: this.stickers,
+                arrows: this.arrows
+            };
+        }
+        this.$.cube.addEventListener('click', e => this._tap(e));
     }
 
     _addArrow(svg, from, to) {

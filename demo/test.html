@@ -69,13 +69,14 @@
 
 
                     <!--<tm-cube-image-top></tm-cube-image-top>-->
-                    <tm-cube-image on-select="_selected" stickers="[[alg.stickers]]" alg="[[alg]]"></tm-cube-image>
+                    <!--<tm-cube-image on-select="_selected" stickers="[[alg.stickers]]"></tm-cube-image>-->
+                    <tm-cube-image-top on-select="_selected" stickers="yyy yyy yyy | oog rro ggr bbb" arrows="3>9, 9>3, 6>8, 8>6"></tm-cube-image-top>
 
                     `;
             }
 
             _selected(e) {
-                console.log('cube has been selected.', e.detail.alg);
+                console.log('cube has been selected.', e.detail);
             }
 
             static get properties()
